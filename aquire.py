@@ -59,3 +59,24 @@ def prep_germany(df):
     df.Solar = df.Solar.fillna(0)
     df['Wind+Solar'] = df['Wind+Solar'].fillna(0)
     return df
+
+
+def get_temp_data(city = None):
+    if os.path.isfile('temps.csv'):
+        if city == None:
+            return pd.read_csv('temps.csv')
+        df = pd.read_csv('temps.csv')
+        df = df.loc[(df['City']== city)]
+        df.to_csv('temp_by_location.csv')
+        return df
+    
+    
+def prep_temp_data(df):
+    df.dt = pd.to_datetime(df.dt)
+    df = df.set_index('dt')
+    df = df.drop(columns=['City', 'Country', 'Latitude', 'Longitude'])
+    return df
+
+
+            
+    
